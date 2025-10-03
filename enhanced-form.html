@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enhancing HTML5 Content & Mastering Forms</title>
+  <style>
+    :root {
+      --bg: #0f172a;        
+      --panel: #111827;    
+      --ink: #e5e7eb;       
+      --muted: #9ca3af;    
+      --accent: #38bdf8;    
+      --accent-2: #a78bfa;  
+      --ok: #22c55e;        
+      --warn: #f59e0b;      
+      --err: #ef4444;       
+      --bord: #1f2937;      
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; }
+    a { color: var(--accent); }
+    header, main, footer { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+    header { padding-top: 2rem; }
+    header h1 { margin: 0 0 .25rem; font-size: clamp(1.5rem, 2.5vw, 2rem); }
+    header p { margin: 0; color: var(--muted); }
+    nav { margin-top: 1rem; display: flex; gap: .75rem; flex-wrap: wrap; }
+    nav a { text-decoration: none; padding: .5rem .75rem; border: 1px solid var(--bord); border-radius: .6rem; color: var(--ink); }
+    nav a:hover { border-color: var(--accent); color: var(--accent); }
+    section { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)); border: 1px solid var(--bord); border-radius: 1rem; padding: 1.25rem; margin: 1.25rem 0; }
+    section h2 { margin-top: 0; font-size: 1.25rem; }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 840px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
+    /* Lists & table */
+    ul, ol { padding-left: 1.25rem; }
+    dl dt { font-weight: 600; margin-top: .5rem; }
+    dl dd { margin: 0 0 .25rem 0; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; border: 1px solid var(--bord); }
+    caption { caption-side: top; text-align: left; padding: .5rem 0; color: var(--muted); }
+    thead th { text-align: left; }
+    th, td { padding: .6rem .7rem; border-top: 1px solid var(--bord); }
+    tbody tr:nth-child(odd) { background: rgba(255,255,255,0.02); }
+    /* Media */
+    figure { margin: 0; }
+    figcaption { color: var(--muted); font-size: .95rem; margin-top: .35rem; }
+    .media-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 740px) { .media-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    img, video { width: 100%; height: auto; border-radius: .75rem; border: 1px solid var(--bord); }
+    audio, video { width: 100%; outline: none; }
+    /* Form */
+    form { display: grid; gap: 1rem; }
+    fieldset { border: 1px solid var(--bord); border-radius: .9rem; padding: 1rem; }
+    legend { padding: 0 .5rem; color: var(--accent-2); font-weight: 600; }
+    .row { display: grid; grid-template-columns: 1fr; gap: .8rem; }
+    @media (min-width: 720px) { .row-2 { grid-template-columns: 1fr 1fr; } .row-3 { grid-template-columns: 1fr 1fr 1fr; } }
+    label { display: block; font-weight: 600; }
+    .hint { color: var(--muted); font-size: .9rem; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="url"], input[type="number"], input[type="date"], input[type="time"], input[type="color"], input[type="search"], input[type="file"], select, textarea, datalist+input, input[list] {
+      width: 100%; padding: .6rem .7rem; border: 1px solid var(--bord); border-radius: .6rem; background: #0b1220; color: var(--ink);
+    }
+    input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .inline { display: flex; align-items: center; gap: .5rem; }
+    .req::after { content: " *"; color: var(--warn); }
+    .actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+    button { border: 1px solid var(--bord); background: #0b1220; color: var(--ink); padding: .6rem .9rem; border-radius: .6rem; cursor: pointer; }
+    button[type="submit"] { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color: #0b1220; font-weight: 700; }
+    .note { border-left: 3px solid var(--accent); padding: .75rem 1rem; background: rgba(56,189,248,0.08); border-radius: .5rem; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Enhancing HTML5 Content &amp; Mastering Forms</h1>
+    <p>This single page demonstrates lists, tables, media, and a complete, accessible HTML5 form with native validation.</p>
+    <nav aria-label="Page sections">
+      <a href="#content">Content Elements</a>
+      <a href="#media">Media</a>
+      <a href="#form">HTML5 Form</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="content" aria-labelledby="content-h2">
+      <h2 id="content-h2">Structured Content: Lists, Tables &amp; More</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Common HTML5 Content Patterns</h3>
+          <p class="note">Use lists for grouped items, description lists for term–definition pairs, and tables for true tabular data with headers and captions.</p>
+          <h4>Unordered list</h4>
+          <ul>
+            <li>Clean semantic structure</li>
+            <li>Accessible naming &amp; labeling</li>
+            <li>Keyboard-friendly interactions</li>
+          </ul>
+          <h4>Ordered list (steps)</h4>
+          <ol>
+            <li>Plan the content</li>
+            <li>Choose the right HTML element</li>
+            <li>Test on mobile &amp; desktop</li>
+          </ol>
+          <h4>Description list (glossary)</h4>
+          <dl>
+            <dt>Semantic HTML</dt>
+            <dd>Using elements that convey meaning (e.g., <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>).</dd>
+            <dt>Accessibility</dt>
+            <dd>Practices that make content usable for everyone, including assistive tech users.</dd>
+          </dl>
+        </div>
+
+        <div>
+          <h3>Sample Table with Caption &amp; Headers</h3>
+          <table aria-describedby="plan-desc">
+            <caption>Subscription Plans — Feature Comparison</caption>
+            <thead>
+              <tr>
+                <th scope="col">Plan</th>
+                <th scope="col">Storage</th>
+                <th scope="col">Users</th>
+                <th scope="col">Support</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Starter</th>
+                <td>10 GB</td>
+                <td>1</td>
+                <td>Email</td>
+              </tr>
+              <tr>
+                <th scope="row">Team</th>
+                <td>100 GB</td>
+                <td>5</td>
+                <td>Email &amp; Chat</td>
+              </tr>
+              <tr>
+                <th scope="row">Business</th>
+                <td>1 TB</td>
+                <td>Unlimited</td>
+                <td>24/7 Priority</td>
+              </tr>
+            </tbody>
+          </table>
+          <p id="plan-desc" class="hint">The table uses a top caption, column headers in <code>&lt;thead&gt;</code>, and row headers via <code>&lt;th scope="row"&gt;</code> for screen reader clarity.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="media" aria-labelledby="media-h2">
+      <h2 id="media-h2">Embedding Media</h2>
+      <div class="media-grid">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Laptop on a desk with code editor visible">
+          <figcaption>Figure 1 — Example image using a semantic <code>&lt;figure&gt;</code>/<code>&lt;figcaption&gt;</code>.</figcaption>
+        </figure>
+
+        <figure>
+          <audio controls aria-label="Sample audio clip">
+            <source src="https://www.w3schools.com/html/horse.mp3" type="audio/mpeg">
+            Your browser does not support the <code>audio</code> element.
+          </audio>
+          <figcaption>Audio — native controls with accessible labeling.</figcaption>
+        </figure>
+
+        <figure>
+          <video controls preload="metadata" poster="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop">
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Your browser does not support the <code>video</code> element.
+          </video>
+          <figcaption>Video — progressive enhancement with a poster image and MP4 source.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="form" aria-labelledby="form-h2">
+      <h2 id="form-h2">Complete HTML5 Form (Native Validation, No JS)</h2>
+      <p class="hint">Every field is labeled; related fields are grouped with fieldsets and legends. Required fields are marked with an asterisk.</p>
+
+      <form action="/submit" method="post" autocomplete="on">
+        <!-- Identity -->
+        <fieldset>
+          <legend>Account</legend>
+          <div class="row row-2">
+            <div>
+              <label class="req" for="fullName">Full name</label>
+              <input id="fullName" name="fullName" type="text" placeholder="Lerato Modisane" required minlength="2" autocomplete="name">
+              <p class="hint" id="nameHint">At least 2 characters.</p>
+            </div>
+            <div>
+              <label class="req" for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" required autocomplete="email" inputmode="email">
+            </div>
+          </div>
+
+          <div class="row row-2">
+            <div>
+              <label class="req" for="password">Password</label>
+              <input id="password" name="password" type="password"
+                     placeholder="Min 8 chars, 1 number"
+                     required minlength="8"
+                     pattern="(?=.*\d).{8,}"
+                     title="At least 8 characters and include at least one number."
+                     autocomplete="new-password">
+            </div>
+            <div>
+              <label for="userId">User ID (readonly)</label>
+              <input id="userId" name="userId" type="text" value="USR-2025-001" readonly>
+              <p class="hint">Example of a <code>readonly</code> field.</p>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Contact & Preferences -->
+        <fieldset>
+          <legend>Contact &amp; Preferences</legend>
+          <div class="row row-3">
+            <div>
+              <label class="req" for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" placeholder="+27 82 123 4567"
+                     inputmode="tel" required
+                     pattern="^\+?\d[\d\s-]{7,}$"
+                     title="Enter a valid phone number (digits, spaces, dashes allowed)."
+                     autocomplete="tel">
+            </div>
+            <div>
+              <label for="website">Website</label>
+              <input id="website" name="website" type="url" placeholder="https://example.com" autocomplete="url">
+            </div>
+            <div>
+              <label for="favColor">Favorite color</label>
+              <input id="favColor" name="favColor" type="color" value="#38bdf8">
+            </div>
+          </div>
+
+          <div class="row row-2">
+            <div>
+              <label for="country">Country</label>
+              <input id="country" name="country" list="country-list" placeholder="Start typing...">
+              <datalist id="country-list">
+                <option value="South Africa">
+                <option value="United States">
+                <option value="United Kingdom">
+                <option value="India">
+                <option value="Brazil">
+              </datalist>
+              <p class="hint">Example using <code>datalist</code> for suggestions.</p>
+            </div>
+            <div>
+              <label for="time">Best time to contact</label>
+              <input id="time" name="time" type="time">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Profile -->
+        <fieldset>
+          <legend>Profile Details</legend>
+          <div class="row row-3">
+            <div>
+              <label class="req" for="dob">Date of birth</label>
+              <input id="dob" name="dob" type="date" required max="2010-12-31">
+              <p class="hint">Must be on or before 2010-12-31.</p>
+            </div>
+            <div>
+              <label for="experience">Experience (years)</label>
+              <input id="experience" name="experience" type="number" min="0" max="40" step="1" placeholder="0">
+            </div>
+            <div>
+              <label for="satisfaction">Satisfaction</label>
+              <input id="satisfaction" name="satisfaction" type="range" min="0" max="10" value="7">
+            </div>
+          </div>
+
+          <div class="row row-2">
+            <div>
+              <label class="req" for="role">Preferred role</label>
+              <select id="role" name="role" required>
+                <option value="">Select a role…</option>
+                <option>Student</option>
+                <option>Teacher</option>
+                <option>Admin</option>
+              </select>
+            </div>
+            <div>
+              <label for="skills">Skills (hold Ctrl/Cmd for multiple)</label>
+              <select id="skills" name="skills" multiple size="4">
+                <option>HTML</option>
+                <option>CSS</option>
+                <option>JavaScript</option>
+                <option>SQL</option>
+                <option>Accessibility</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <span class="req">Contact method</span>
+              <div class="inline">
+                <input type="radio" id="contactEmail" name="contactMethod" value="email" required>
+                <label for="contactEmail">Email</label>
+              </div>
+              <div class="inline">
+                <input type="radio" id="contactPhone" name="contactMethod" value="phone">
+                <label for="contactPhone">Phone</label>
+              </div>
+            </div>
+            <div>
+              <span>Newsletters</span>
+              <div class="inline">
+                <input type="checkbox" id="newsTech" name="newsletters" value="tech">
+                <label for="newsTech">Tech</label>
+              </div>
+              <div class="inline">
+                <input type="checkbox" id="newsDesign" name="newsletters" value="design">
+                <label for="newsDesign">Design</label>
+              </div>
+              <div class="inline">
+                <input type="checkbox" id="newsEvents" name="newsletters" value="events" checked>
+                <label for="newsEvents">Events</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Upload & Bio -->
+        <fieldset>
+          <legend>Attachments &amp; Bio</legend>
+          <div class="row row-2">
+            <div>
+              <label for="avatar">Profile photo (JPG/PNG)</label>
+              <input id="avatar" name="avatar" type="file" accept=".jpg,.jpeg,.png">
+            </div>
+            <div>
+              <label for="resume">Portfolio URL</label>
+              <input id="resume" name="resume" type="url" placeholder="https://…" autocomplete="url">
+            </div>
+          </div>
+          <div>
+            <label for="bio">Short bio</label>
+            <textarea id="bio" name="bio" rows="4" maxlength="300" placeholder="Tell us a bit about you (max 300 chars)…"></textarea>
+            <p class="hint">Max length enforced via <code>maxlength</code>.</p>
+          </div>
+        </fieldset>
+
+        <!-- Agreements -->
+        <fieldset>
+          <legend>Agreements</legend>
+          <div class="inline">
+            <input type="checkbox" id="tos" name="tos" required>
+            <label class="req" for="tos">I agree to the Terms of Service</label>
+          </div>
+          <div class="inline">
+            <input type="checkbox" id="privacy" name="privacy" required>
+            <label class="req" for="privacy">I accept the Privacy Policy</label>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit">Submit form</button>
+          <button type="reset">Reset</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Brian Mkhwanazi. Built with semantic HTML5, accessible structures, and native form validation.</p>
+  </footer>
+</body>
+</html>
